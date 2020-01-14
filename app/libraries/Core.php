@@ -3,14 +3,29 @@
 
 class Core
 {
+
+    protected $currentController = 'Pages';
+    protected $currentMethod = 'index';
+    protected $params = [];
+
+
     /**
      * Core constructor.
      */
     public function __construct()
     {
-        $this->getUrl();
-    }
+       $url = $this->getUrl();
+       $controllerName = ucwords($url[0]);
+       $controllerFile = '../app/controllers/'.$controllerName.'.php';
+       if(file_exists($controllerFile)){
+       $this->currentController = $controllerName;
+       unset($url[0]);
 
+       }
+        require_once '../app/controllers/'.$this->currentController.'.php';
+       $this->currentController = new $this->currentController;
+
+    }
 // get url data
 
 
